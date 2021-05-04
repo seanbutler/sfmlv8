@@ -1,23 +1,20 @@
 SRC=src/
+BIN=bin/
+
 CC=g++
 LIBV8= -L./deps/v8/out.gn/x64.release.sample/obj/
 CFLAG= -lrt -lm -lv8_monolith -pthread -std=c++14 -lstdc++ -DV8_COMPRESS_POINTERS -ldl 
 DEPS = ./deps/
 INCLUDE=-I./deps/v8/include/
 
-default: main
+EXE=sfmlv8
+OUT=bin/sfmlv8
 
-native: tools.o $(SRC)native.cpp
-	$(CC) tools.o -Wall $(INCLUDE) -I$(DEPS) $(SRC)native.cpp -o bin/native $(LIBV8) $(CFLAG)
-	chmod +x bin/native
-
-tools.o: $(DEPS)tools.c $(DEPS)tools.h
-	$(CC) -c $(DEPS)tools.c -o tools.o
+default: sfmlv8
 
 clean:
-	rm -r bin/*
+	rm -r $(OUT)
 
-main: $(SRC)main.cpp
-	$(CC) -Wall $(INCLUDE) $(SRC)main.cpp -o bin/main $(LIBV8) $(CFLAG)
-	chmod +x bin/main
-
+sfmlv8: $(SRC)main.cpp
+	$(CC) -Wall $(INCLUDE) $(SRC)main.cpp -o $(OUT) $(LIBV8) $(CFLAG)
+	chmod +x $(OUT)
