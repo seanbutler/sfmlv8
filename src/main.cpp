@@ -9,6 +9,8 @@
 #include "../deps/v8/include/libplatform/libplatform.h"
 #include "../deps/v8/include/v8.h"
 
+#include <SFML/Graphics.hpp>
+
 int main(int argc, char* argv[]) {
   // Initialize V8.
   v8::V8::InitializeICUDefaultLocation(argv[0]);
@@ -87,6 +89,9 @@ int main(int argc, char* argv[]) {
       printf("result = %u\n", number);
     }
   }
+
+
+ sf::Window window(sf::VideoMode(800, 600), "My window");
 
   // Dispose the isolate and tear down V8.
   isolate->Dispose();

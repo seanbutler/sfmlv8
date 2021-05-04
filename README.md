@@ -16,8 +16,6 @@ code super fast games
 1. use Make to build this project
 
 
-
-
 ~~~
 
 > make
