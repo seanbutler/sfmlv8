@@ -24,18 +24,15 @@ public:
     ,   handle_scope(I)
     ,   mSourceString(S)
     {
-        std::cout << "Script()" << std::endl;
+        // std::cout << "Script()" << std::endl;
 
-        std::cout << "source = \"" << mSourceString << "\"" << std::endl;
+        // std::cout << "source = \"" << mSourceString << "\"" << std::endl;
 
-        // TODO i like this here but might be better elsewhere
+        // TODO might be better elsewhere
         mSourceCode = v8::String::NewFromUtf8(I, 
                                         mSourceString.c_str(), 
                                         v8::NewStringType::kNormal
                                     ).ToLocalChecked();
-                                    
-        std::cout << "exit Script()" << std::endl;
-
     }
 
 	virtual ~Script() {
@@ -46,10 +43,9 @@ public:
     bool Initialize();
     bool Execute();
 
-public:
     v8::Isolate* GetIsolate()               { return mIsolate; }
 
-private:
+protected:
     v8::Isolate* mIsolate;
     v8::Isolate::Scope isolate_scope;
     v8::HandleScope handle_scope;

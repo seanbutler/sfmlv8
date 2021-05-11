@@ -25,23 +25,15 @@ public:
         v8::V8::InitializePlatform(mPlatformPtr.get());
         v8::V8::Initialize();
 
-        std::cout << "ScriptSystem 1" << std::endl; 
-
         v8::Isolate::CreateParams create_params;
         create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
         mIsolate = v8::Isolate::New(create_params);
         mIsolate->Enter();
-        std::cout << "ScriptSystem 2" << std::endl; 
-
     }
 
     virtual ~ScriptSystem() {
-        
-        mIsolate->Exit();
-
         if (mIsolate) {
-            
-            mIsolate->Dispose();
+            mIsolate->Exit();
             mIsolate = 0;
         }
 
@@ -58,7 +50,7 @@ protected:
 	std::unique_ptr<v8::Platform> mPlatformPtr;     
 	v8::Isolate* mIsolate;
 
-    Script* mScript;
+    std::vector<Script*> mScripts;
 };
 
 

@@ -45,19 +45,12 @@ std::string ReadFile(const std::string& name)
 
 int main(int argc, char* argv[]) {
 
-  std::cout << "main 1" << std::endl; 
-
   ScriptSystem scriptSystem(argv[0]);
 
-  std::cout << "main 2" << std::endl; 
-
   scriptSystem.NewScript(ReadFile("./script.js"));
-
-  std::cout << "main 3" << std::endl; 
+  scriptSystem.NewScript(ReadFile("./fibo.js"));
 
   scriptSystem.Update();
-
-  std::cout << "main 4" << std::endl; 
 
   return 0;
 }

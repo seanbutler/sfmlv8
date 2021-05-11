@@ -5,13 +5,15 @@
 
 
 void ScriptSystem::NewScript(std::string S) {
-    std::cout << "ScriptSystem::NewScript"   << std::endl; 
-    mScript = new Script(GetIsolate(), S);
+    // std::cout << "ScriptSystem::NewScript"   << std::endl; 
+    mScripts.push_back(new Script(GetIsolate(), S));
 }
 
 void ScriptSystem::Update() {
-    std::cout << "ScriptSystem::Update()"   << std::endl; 
-    mScript->Execute();
+    // std::cout << "ScriptSystem::Update()"   << std::endl; 
+    for(auto S : mScripts){
+        S->Execute();
+    }
 }
 
 
