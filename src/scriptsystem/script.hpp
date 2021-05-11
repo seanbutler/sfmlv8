@@ -53,5 +53,11 @@ protected:
     std::string mSourceString;
     v8::Local<v8::String> mSourceCode;
     
+    v8::Global<v8::Function> mProcessFunc;
+    v8::Global<v8::Context> mContext;
+    
+    // v8::Global<v8::Function> mStartupFunc;
+    // v8::Global<v8::Function> mUpdateFunc;
+    // v8::Global<v8::Function> mShutdownFunc;
 };
 

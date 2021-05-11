@@ -5,17 +5,12 @@
 
 bool Script::Initialize() {
 
-
-    return true;
-}
-
-bool Script::Execute() {
-
     // Create a stack-allocated handle scope
     v8::HandleScope handle_scope(GetIsolate());
 
     // Create a new context
     v8::Local<v8::Context> context = v8::Context::New(GetIsolate());
+    mContext.Reset(GetIsolate(), context);  // lets keep a context for later use when repeat executing the same script
     v8::Context::Scope context_scope(context);
 
     v8::TryCatch try_catch(GetIsolate());
@@ -32,9 +27,59 @@ bool Script::Execute() {
     }
 
 
+
+    // The script compiled and ran correctly.  Now we fetch out the
+    // Process function from the global object.
+    v8::Local<v8::Value> process_val;
+    v8::Local<v8::String> process_name = v8::String::NewFromUtf8Literal(GetIsolate(), "Process");
+
+    if (!context->Global()->Get(context, process_name).ToLocal(&process_val) ||
+        !process_val->IsFunction()) {
+        return false;
+    }
+
+
+    // It is a function; cast it to a Function
+    v8::Local<v8::Function> process_fun = process_val.As<v8::Function>();
+
+    // Store the function in a Global handle, since we also want
+    // that to remain after this call returns
+    mProcessFunc.Reset(GetIsolate(), process_fun);
+
+
     // Convert the result to an UTF8 string and print it.
     v8::String::Utf8Value utf8(GetIsolate(), result);
-    printf("yowzers %s\n", *utf8);
+    printf("init res %s\n", *utf8);
+
+    return true;
+}
+
+bool Script::Execute() {
+
+    // Create a stack-allocated handle scope
+    v8::HandleScope handle_scope(GetIsolate());
+
+    // Create a new context
+    v8::Local<v8::Context> context = v8::Local<v8::Context>::New(GetIsolate(), mContext);
+    v8::Context::Scope context_scope(context);
+
+    v8::TryCatch try_catch(GetIsolate());
+
+
+    // Invoke the Process Function
+ 
+    v8::Local<v8::Function> process = v8::Local<v8::Function>::New(GetIsolate(), mProcessFunc);
+    v8::Local<v8::Value> result;
+
+    if (!process->Call(context, context->Global(), 0, nullptr).ToLocal(&result)) {
+        v8::String::Utf8Value error(GetIsolate(), try_catch.Exception());
+        printf("ERROR %s\n", *error);
+        return false;
+    }
+
+    // Convert the result to an UTF8 string and print it.
+    v8::String::Utf8Value utf8(GetIsolate(), result);
+    printf("execute res %s\n", *utf8);
 
     return true;
 }

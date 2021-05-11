@@ -47,9 +47,9 @@ int main(int argc, char* argv[]) {
 
   ScriptSystem scriptSystem(argv[0]);
 
-  scriptSystem.NewScript(ReadFile("./script.js"));
-  scriptSystem.NewScript(ReadFile("./fibo.js"));
+  scriptSystem.NewScript(ReadFile("./assets/js/script.js"));
 
+  scriptSystem.Initialize();
   scriptSystem.Update();
 
   return 0;

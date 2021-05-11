@@ -43,13 +43,13 @@ public:
 
     void NewScript(std::string source);
     void Update();
-    
-    v8::Isolate* GetIsolate()                   {   return mIsolate;   }
+    void Initialize();
+
+    v8::Isolate* GetIsolate()                       {   return mIsolate;   }
 
 protected:
 	std::unique_ptr<v8::Platform> mPlatformPtr;     
 	v8::Isolate* mIsolate;
-
     std::vector<Script*> mScripts;
 };
 

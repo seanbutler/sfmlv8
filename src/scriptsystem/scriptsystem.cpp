@@ -9,6 +9,13 @@ void ScriptSystem::NewScript(std::string S) {
     mScripts.push_back(new Script(GetIsolate(), S));
 }
 
+void ScriptSystem::Initialize() {
+    // std::cout << "ScriptSystem::Initialize()"   << std::endl; 
+    for(auto S : mScripts){
+        S->Initialize();
+    }
+}
+
 void ScriptSystem::Update() {
     // std::cout << "ScriptSystem::Update()"   << std::endl; 
     for(auto S : mScripts){
