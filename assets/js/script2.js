@@ -1,6 +1,6 @@
 
 function Start() {
-    return 1;
+    return 11;
 }
 
 function Continue(deltaTimeInSeconds) {
@@ -8,9 +8,9 @@ function Continue(deltaTimeInSeconds) {
 }
 
 function Render() {
-    return 2;
+    return 21;
 }
 
 function Finish() {
-    return 3;
+    return 31;
 }

@@ -37,11 +37,17 @@ public:
 
 	virtual ~Script() {
         std::cout << "~Script()" << std::endl;
-
     }
 
-    bool Initialize();
-    bool Execute();
+    bool Initialize();      // setup the script, compile and run it once 
+
+    //
+    // user methods 
+    //
+    bool Start();           
+    bool Continue();
+    bool Render();
+    // bool Finish();
 
     v8::Isolate* GetIsolate()               { return mIsolate; }
 
@@ -53,11 +59,12 @@ protected:
     std::string mSourceString;
     v8::Local<v8::String> mSourceCode;
     
-    v8::Global<v8::Function> mProcessFunc;
+    // v8::Global<v8::Function> mProcessFunc;
     v8::Global<v8::Context> mContext;
     
-    // v8::Global<v8::Function> mStartupFunc;
-    // v8::Global<v8::Function> mUpdateFunc;
-    // v8::Global<v8::Function> mShutdownFunc;
+    v8::Global<v8::Function> mStartFunc;
+    v8::Global<v8::Function> mContinueFunc;
+    v8::Global<v8::Function> mRenderFunc;
+    // v8::Global<v8::Function> mFinishFunc;
 };
 

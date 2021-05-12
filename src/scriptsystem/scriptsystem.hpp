@@ -42,8 +42,10 @@ public:
     }
 
     void NewScript(std::string source);
-    void Update();
-    void Initialize();
+    void Initialise();
+    void Start();
+    void Continue();
+    void Render();
 
     v8::Isolate* GetIsolate()                       {   return mIsolate;   }
 
