@@ -1,3 +1,11 @@
+/*
+
+https://stackoverflow.com/questions/11387015/calling-a-v8-javascript-function-from-c-with-an-argument
+
+*/
+
+
+
 #include "./script.hpp"
 #include "../../deps/v8/include/v8.h"
 
@@ -69,9 +77,14 @@ bool Script::Execute() {
     // Invoke the Process Function
  
     v8::Local<v8::Function> process = v8::Local<v8::Function>::New(GetIsolate(), mProcessFunc);
+
+    const int argc=1;
+    v8::Handle<v8::Value> argv[argc];
+    argv[0] = v8::Number::New(GetIsolate(), 17.0);
+
     v8::Local<v8::Value> result;
 
-    if (!process->Call(context, context->Global(), 0, nullptr).ToLocal(&result)) {
+    if (!process->Call(context, context->Global(), argc, argv).ToLocal(&result)) {
         v8::String::Utf8Value error(GetIsolate(), try_catch.Exception());
         printf("ERROR %s\n", *error);
         return false;
