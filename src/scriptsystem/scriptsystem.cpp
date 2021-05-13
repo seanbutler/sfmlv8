@@ -8,11 +8,9 @@
 void ScriptSystem::NewScript(std::string S) {
     // std::cout << "ScriptSystem::NewScript"   << std::endl; 
     mScripts.push_back(new Script(GetIsolate(), S));
-    
 }
 
 // ----------------------------------------------------------------------
-
 
 void ScriptSystem::Start() {
     for(auto S : mScripts){
@@ -37,4 +35,3 @@ void ScriptSystem::Render() {
 }
 
 // ----------------------------------------------------------------------
-

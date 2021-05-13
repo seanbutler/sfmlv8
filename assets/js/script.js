@@ -1,10 +1,12 @@
+var g = 1;
 
 function Start() {
     return 1;
 }
 
 function Continue(deltaTimeInSeconds) {
-    return deltaTimeInSeconds/1000;
+    g = g + 1;
+    return g;
 }
 
 function Render() {

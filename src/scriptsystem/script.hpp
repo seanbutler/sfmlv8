@@ -16,6 +16,11 @@
 
 #include "../../deps/v8/include/v8.h"
 
+#include "../wrapper/graphics.hpp"
+#include "../wrapper/time.hpp"
+
+
+
 class Script {
 public:
     Script(v8::Isolate* I, std::string S) 
@@ -33,6 +38,10 @@ public:
                                         mSourceString.c_str(), 
                                         v8::NewStringType::kNormal
                                     ).ToLocalChecked();
+
+
+
+
     }
 
 	virtual ~Script() {
@@ -47,7 +56,6 @@ public:
     bool Start();           
     bool Continue();
     bool Render();
-    // bool Finish();
 
     v8::Isolate* GetIsolate()               { return mIsolate; }
 
@@ -59,12 +67,9 @@ protected:
     std::string mSourceString;
     v8::Local<v8::String> mSourceCode;
     
-    // v8::Global<v8::Function> mProcessFunc;
     v8::Global<v8::Context> mContext;
-    
     v8::Global<v8::Function> mStartFunc;
     v8::Global<v8::Function> mContinueFunc;
     v8::Global<v8::Function> mRenderFunc;
-    // v8::Global<v8::Function> mFinishFunc;
 };
 

@@ -103,7 +103,7 @@ bool Script::Initialize() {
 bool Script::Start() {
 
     // Create a stack-allocated handle scope
-    v8::HandleScope handle_scope(GetIsolate());
+    // v8::HandleScope handle_scope(GetIsolate());
 
     // Create a new context
     v8::Local<v8::Context> context = v8::Local<v8::Context>::New(GetIsolate(), mContext);
@@ -139,7 +139,7 @@ bool Script::Start() {
 bool Script::Continue() {
 
     // Create a stack-allocated handle scope
-    v8::HandleScope handle_scope(GetIsolate());
+    // v8::HandleScope handle_scope(GetIsolate());
 
     // Create a new context
     v8::Local<v8::Context> context = v8::Local<v8::Context>::New(GetIsolate(), mContext);

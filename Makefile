@@ -24,7 +24,7 @@ EXE=sfmlv8
 OUT=bin/sfmlv8
 
 
-ENGINE_SRCS=$(SRCDIR)/scriptsystem/script.cpp $(SRCDIR)/scriptsystem/scriptsystem.cpp 
+ENGINE_SRCS= $(SRCDIR)/wrapper/graphics.cpp $(SRCDIR)/wrapper/time.cpp  $(SRCDIR)/scriptsystem/script.cpp $(SRCDIR)/scriptsystem/scriptsystem.cpp 
 
 SRCS=$(SRCDIR)main.cpp $(ENGINE_SRCS)
 

@@ -8,12 +8,13 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+#include "./wrapper/graphics.hpp"
 
 #include "../deps/v8/include/libplatform/libplatform.h"
 #include "../deps/v8/include/v8.h"
 
-#include "./scriptsystem/scriptsystem.hpp"
-#include "./scriptsystem/script.hpp"
+#include "../src/scriptsystem/scriptsystem.hpp"
+#include "../src/scriptsystem/script.hpp"
 
 // --------------------------------------------------
 
@@ -45,9 +46,9 @@ std::string ReadFile(const std::string& name)
 
 int main(int argc, char* argv[]) {
 
-  sf::RenderWindow window;
-  window.create(sf::VideoMode(800, 600), "My window");
-
+  W::Window window;
+  W::Sprite sprite("./assets/2d/female_tilesheet.png", 8, 8, 64, 128);
+  
   ScriptSystem scriptSystem(argv[0]);
 
   scriptSystem.NewScript(ReadFile("./assets/js/script.js"));
@@ -55,25 +56,26 @@ int main(int argc, char* argv[]) {
 
   scriptSystem.Start();
 
-  while (window.isOpen())
+  while (window.get().isOpen())
   {
     // check all the window's events that were triggered since the last iteration of the loop
     sf::Event event;
-    while (window.pollEvent(event))
+    while (window.get().pollEvent(event))
     {
         // "close requested" event: we close the window
         if (event.type == sf::Event::Closed)
-            window.close();
+            window.get().close();
     }
 
     scriptSystem.Continue();
     
-    window.clear(sf::Color::Black);
+    window.Clear();
 
     scriptSystem.Render();
+    sprite.get().setPosition(0, 0);
 
-    // end the current frame
-    window.display();
+    window.get().draw(sprite.get());
+    window.Display();
   }
 
   return 0;
