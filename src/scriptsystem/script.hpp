@@ -47,7 +47,6 @@ public:
 protected:
     std::string           _source_string;
     v8::Local<v8::Context> context_;
-    v8::Local<v8::String> mSourceCode;
     
     v8::Global<v8::Function> mStartFunc;
     v8::Global<v8::Function> mContinueFunc;

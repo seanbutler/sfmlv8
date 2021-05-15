@@ -31,6 +31,7 @@ public:
         v8::Isolate::CreateParams create_params;
         create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
         _isolate_ptr = v8::Isolate::New(create_params);
+
         if (_isolate_ptr == nullptr) {
             std::cout << "ERROR " << std::endl;
         }
@@ -49,6 +50,7 @@ public:
     }
 
     void NewScript(std::string source);
+    
     void Start();
     void Continue();
     void Render();
@@ -58,5 +60,5 @@ public:
 protected:
     v8::Isolate * _isolate_ptr;
 	std::unique_ptr<v8::Platform> _current_platform_ptr;    
-    std::vector<Script*> mScripts;
+    std::vector<Script*> _script_vector;
 };

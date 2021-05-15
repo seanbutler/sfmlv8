@@ -23,23 +23,24 @@ bool Script::Initialize() {
 
     // Create a new scope and global template to hold global functions
     v8::Context::Scope context_scope();
-	v8::Local<v8::ObjectTemplate> mGlobalTemplate = v8::ObjectTemplate::New(GetIsolate());
-    context = v8::Context::New(GetIsolate(), nullptr, mGlobalTemplate);
-    mGlobalTemplate->Set(GetIsolate(), "log", v8::FunctionTemplate::New(GetIsolate(), LogCallback));
+	v8::Local<v8::ObjectTemplate> global_template = v8::ObjectTemplate::New(GetIsolate());
+    global_template->Set(GetIsolate(), "log", v8::FunctionTemplate::New(GetIsolate(), LogCallback));
+    context = v8::Context::New(GetIsolate(), nullptr, global_template);
 
     // lets keep the context for later use when repeat executing the same script
     context_ = context;  
 
     v8::TryCatch try_catch(GetIsolate());
 
+    v8::Local<v8::String> source_code;
 
-    mSourceCode = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), 
+    source_code = v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), 
                                     _source_string.c_str(), 
                                     v8::NewStringType::kNormal
                                 ).ToLocalChecked();
 
     // Compile the source code
-    v8::Local<v8::Script> compiledScript = v8::Script::Compile(context, mSourceCode).ToLocalChecked();
+    v8::Local<v8::Script> compiledScript = v8::Script::Compile(context, source_code).ToLocalChecked();
 
     // Run the script to get the result.
     v8::Local<v8::Value> result;

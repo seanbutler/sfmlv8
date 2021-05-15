@@ -1,10 +1,10 @@
-var g = 1;
 
 function Start() {
     return 1;
 }
 
 function Continue(deltaTime) {
+    log("Hi THere!" + "\n");
     return deltaTime;
 }
 

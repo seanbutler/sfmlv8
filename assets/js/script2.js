@@ -1,12 +1,13 @@
 
-var g = 9999;
+var g = 1;
 
 function Start() {
     return 11;
 }
 
 function Continue(deltaTime) {
-    g--;
+    g++;
+    log("hi");
     return g;
 }
 
