@@ -1,6 +1,12 @@
-// Copyright 2015 the V8 project authors. All rights reserved.
+// Parts Copyright 2015 the V8 project authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
+
+//
+// with help from here https://github.com/danbev/learning-v8
+//
+
+// ----------------------------------------------------------------------
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,15 +14,15 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+
 #include "./wrapper/graphics.hpp"
 
 #include "../deps/v8/include/libplatform/libplatform.h"
 #include "../deps/v8/include/v8.h"
-
 #include "../src/scriptsystem/scriptsystem.hpp"
 #include "../src/scriptsystem/script.hpp"
 
-// --------------------------------------------------
+// ----------------------------------------------------------------------
 
 // Reads a file into a std::string.
 std::string ReadFile(const std::string& name) 
@@ -42,7 +48,7 @@ std::string ReadFile(const std::string& name)
   return chars.get();
 }
 
-// --------------------------------------------------
+// ----------------------------------------------------------------------
 
 int main(int argc, char* argv[]) {
 

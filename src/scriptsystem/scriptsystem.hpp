@@ -20,28 +20,28 @@ class Script;
 class ScriptSystem {
 public:
 	ScriptSystem(char* argv0)
+    :   _isolate_ptr(nullptr)
     {
         v8::V8::InitializeICUDefaultLocation(argv0);
         v8::V8::InitializeExternalStartupData(argv0);
-        mPlatformPtr = v8::platform::NewDefaultPlatform();
-        v8::V8::InitializePlatform(mPlatformPtr.get());
+        _current_platform_ptr = v8::platform::NewDefaultPlatform();
+        v8::V8::InitializePlatform(_current_platform_ptr.get());
         v8::V8::Initialize();
 
         v8::Isolate::CreateParams create_params;
         create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
-        mIsolate = v8::Isolate::New(create_params);
-        mIsolate->Enter();
-
-        v8::HandleScope hs(mIsolate);
-        mGlobalTemplate = v8::ObjectTemplate::New(mIsolate);
-        mContext = v8::Context::New(mIsolate, nullptr, mGlobalTemplate);
-        mGlobalTemplate->Set(mIsolate, "log", v8::FunctionTemplate::New(mIsolate, LogCallback));
+        _isolate_ptr = v8::Isolate::New(create_params);
+        if (_isolate_ptr == nullptr) {
+            std::cout << "ERROR " << std::endl;
+        }
+        _isolate_ptr->Enter();
     }
 
+
     virtual ~ScriptSystem() {
-        if (mIsolate) {
-            mIsolate->Exit();
-            mIsolate = 0;
+        if (_isolate_ptr) {
+            _isolate_ptr->Exit();
+            _isolate_ptr = 0;
         }
 
         v8::V8::Dispose();
@@ -49,18 +49,14 @@ public:
     }
 
     void NewScript(std::string source);
-    // void Initialise();
     void Start();
     void Continue();
     void Render();
 
-    v8::Isolate* GetIsolate()                       {   return mIsolate;   }
+    v8::Isolate* GetIsolate()                       {   return _isolate_ptr;   }
 
 protected:
-
-	std::unique_ptr<v8::Platform> mPlatformPtr;    
-	v8::Local<v8::ObjectTemplate> mGlobalTemplate;
-	v8::Local<v8::Context> mContext;
-	v8::Isolate* mIsolate;
+    v8::Isolate * _isolate_ptr;
+	std::unique_ptr<v8::Platform> _current_platform_ptr;    
     std::vector<Script*> mScripts;
 };

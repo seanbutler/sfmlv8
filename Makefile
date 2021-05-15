@@ -36,5 +36,5 @@ clean:
 
 sfmlv8: $(SRCS)
 	figlet make sfmlv8
-	$(CC) -Wall $(INCLUDE) $(SRCS) -o $(OUT) $(LIBS) $(CFLAGS)
+	$(CC) -g -Wall $(INCLUDE) $(SRCS) -o $(OUT) $(LIBS) $(CFLAGS)
 	chmod +x $(OUT)

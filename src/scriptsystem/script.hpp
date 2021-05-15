@@ -20,28 +20,13 @@
 #include "../wrapper/time.hpp"
 
 
-
 class Script {
 public:
-    Script(v8::Isolate* I, std::string S) 
-    :   mIsolate(I)
-    ,   isolate_scope(I)
-    ,   handle_scope(I)
-    ,   mSourceString(S)
+    Script(std::string S)
+    :   _source_string(S)
+    ,   context_()
     {
-        // std::cout << "Script()" << std::endl;
-
-        // std::cout << "source = \"" << mSourceString << "\"" << std::endl;
-
-        // TODO might be better elsewhere
-        mSourceCode = v8::String::NewFromUtf8(I, 
-                                        mSourceString.c_str(), 
-                                        v8::NewStringType::kNormal
-                                    ).ToLocalChecked();
-
-
-
-
+        std::cout << "Script()" << std::endl;
     }
 
 	virtual ~Script() {
@@ -54,20 +39,16 @@ public:
     // user methods 
     //
     bool Start();           
-    bool Continue();
+    bool Continue(double deltaTime=1.0/60.0);
     bool Render();
 
-    v8::Isolate* GetIsolate()               { return mIsolate; }
+    v8::Isolate* GetIsolate()               { return v8::Isolate::GetCurrent(); }
 
 protected:
-    v8::Isolate* mIsolate;
-    v8::Isolate::Scope isolate_scope;
-    v8::HandleScope handle_scope;
-
-    std::string mSourceString;
+    std::string           _source_string;
+    v8::Local<v8::Context> context_;
     v8::Local<v8::String> mSourceCode;
     
-    v8::Global<v8::Context> mContext;
     v8::Global<v8::Function> mStartFunc;
     v8::Global<v8::Function> mContinueFunc;
     v8::Global<v8::Function> mRenderFunc;

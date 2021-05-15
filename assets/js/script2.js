@@ -7,7 +7,6 @@ function Start() {
 
 function Continue(deltaTime) {
     g--;
-
     return g;
 }
 
