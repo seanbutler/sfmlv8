@@ -2,9 +2,9 @@
 
 ## description
 
-sfmlv8 is a joining of SFML and V8
+quick and dirty skeleton for projects which combine sfml and v8 
+work in progress, naturally.
 
-code super fast games
  - use the speed of C++ for the graphics, sound and windowing.
  - the ease of access and flexability google's v8, which is also super fast.  
 
