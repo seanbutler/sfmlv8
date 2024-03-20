@@ -14,7 +14,7 @@
 
 #include <iostream>
 
-#include "../../deps/v8/include/v8.h"
+#include "v8.h"
 
 #include "../wrapper/graphics.hpp"
 #include "../wrapper/time.hpp"

@@ -2,12 +2,12 @@
 #include <iostream>
 
 
-#include "../../deps/v8/include/libplatform/libplatform.h"
-#include "../../deps/v8/include/v8.h"
+#include "libplatform.h"
+#include "v8.h"
 
 #include <SFML/System.hpp>
 
-#include "./time.hpp"
+#include "time.hpp"
 
 static sf::Clock global_clock;
 

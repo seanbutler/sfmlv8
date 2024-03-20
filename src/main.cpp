@@ -15,12 +15,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "./wrapper/graphics.hpp"
+#include "libplatform.h"
+#include "v8.h"
 
-#include "../deps/v8/include/libplatform/libplatform.h"
-#include "../deps/v8/include/v8.h"
-#include "../src/scriptsystem/scriptsystem.hpp"
-#include "../src/scriptsystem/script.hpp"
+
+#include "./wrapper/graphics.hpp"
+#include "./scriptsystem/scriptsystem.hpp"
+#include "./scriptsystem/script.hpp"
 
 // ----------------------------------------------------------------------
 

@@ -7,7 +7,7 @@ https://stackoverflow.com/questions/11387015/calling-a-v8-javascript-function-fr
 // --------------------------------------------------------------------------------
 
 #include "./script.hpp"
-#include "../../deps/v8/include/v8.h"
+#include "v8.h"
 
 // --------------------------------------------------------------------------------
 

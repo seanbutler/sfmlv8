@@ -9,9 +9,9 @@
 
 #include <iostream>
 
-#include "../../deps/v8/include/v8.h"
-#include "../../deps/v8/include/v8-platform.h"
-#include "../../deps/v8/include/libplatform/libplatform.h"
+#include "v8.h"
+#include "v8-platform.h"
+#include "libplatform/libplatform.h"
 
 #include "../wrapper/time.hpp"
 
@@ -46,7 +46,8 @@ public:
         }
 
         v8::V8::Dispose();
-        v8::V8::ShutdownPlatform();
+        // v8::V8::ShutdownPlatform();
+        // TODO
     }
 
     void NewScript(std::string source);

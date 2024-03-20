@@ -1,7 +1,9 @@
 
+
+#include "libplatform.h"
+
 #include "./scriptsystem.hpp"
 #include "./script.hpp"
-#include "../../deps/v8/include/libplatform/libplatform.h"
 
 // ----------------------------------------------------------------------
 
