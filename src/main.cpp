@@ -22,12 +22,27 @@
 
 // ----------------------------------------------------------------------
 
-void Initialise(const v8::FunctionCallbackInfo<v8::Value>& info)
+void Initialise(const v8::FunctionCallbackInfo<v8::Value> &info)
 {
   std::cout << "MY INITIALISE" << std::endl;
 }
 
+void Update(const v8::FunctionCallbackInfo<v8::Value> &info)
+{
+  std::cout << "MY UPDATE" << std::endl;
+}
 
+void Render(const v8::FunctionCallbackInfo<v8::Value> &info)
+{
+  std::cout << "MY RENDER" << std::endl;
+}
+
+void Dispose(const v8::FunctionCallbackInfo<v8::Value> &info)
+{
+  std::cout << "MY DISPOSE" << std::endl;
+}
+
+v8::Global<v8::Function> process_;
 
 // ----------------------------------------------------------------------
 
@@ -89,21 +104,60 @@ int main(int argc, char *argv[])
   // associate 'doit' with the doit function, allowing JavaScript to call it.
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "doit",
-                                      v8::NewStringType::kNormal).ToLocalChecked(),
-                                      v8::FunctionTemplate::New(isolate, doit));
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, doit));
 
   // associate 'print' with the print function, allowing JavaScript to call it.
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "print",
-                                      v8::NewStringType::kNormal).ToLocalChecked(),
-                                      v8::FunctionTemplate::New(isolate, print));
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, print));
 
   // make 'age' available to JavaScript
   global->SetAccessor(String::NewFromUtf8(isolate,
                                           "age",
-                                          v8::NewStringType::kNormal).ToLocalChecked(),
-                                          age_getter,
-                                          age_setter);
+                                          v8::NewStringType::kNormal)
+                          .ToLocalChecked(),
+                      age_getter,
+                      age_setter);
+
+  //
+  // SFML WINDOW FUNCTIONS
+  //
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sfml_create_window",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sfml_create_window));
+
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sfml_is_window_open",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sfml_is_window_open));
+
+
+  //
+  // SFML EVENT FUNCTIONS
+  //
+
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sfml_poll_event",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sfml_poll_event));
+
+
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sflm_handle_window_close_event",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sflm_handle_window_close_event));
+
+
+
 
   // set a named property interceptor
   // global->SetNamedPropertyHandler(property_listener);
@@ -111,11 +165,10 @@ int main(int argc, char *argv[])
   // Create a new context.
   v8::Local<v8::Context> context = v8::Context::New(isolate, nullptr, global);
 
-
   global->Set(isolate, "initialise", v8::FunctionTemplate::New(isolate, Initialise));
-
-
-
+  global->Set(isolate, "update", v8::FunctionTemplate::New(isolate, Update));
+  global->Set(isolate, "render", v8::FunctionTemplate::New(isolate, Render));
+  global->Set(isolate, "dispose", v8::FunctionTemplate::New(isolate, Dispose));
 
   // Enter the context for compiling and running the hello world script.
   v8::Context::Scope context_scope(context);
@@ -141,20 +194,40 @@ int main(int argc, char *argv[])
     printf("%s\n", *utf8);
   }
 
-  sf::Window window(sf::VideoMode(800, 600), "My window");
+  // The script compiled and ran correctly.  Now we fetch out the
+  // Process function from the global object.
+  v8::Local<v8::String> process_name = v8::String::NewFromUtf8Literal(isolate, "Process");
+  v8::Local<v8::Value> process_val;
+  // If there is no Process function, or if it is not a function,
+  // bail out
+  if (!context->Global()->Get(context, process_name).ToLocal(&process_val) ||
+      !process_val->IsFunction())
+  {
+    return false;
+  }
+
+  // It is a function; cast it to a Function
+  v8::Local<v8::Function> process_fun = process_val.As<v8::Function>();
+
+  // Store the function in a Global handle, since we also want
+  // that to remain after this call returns
+  process_.Reset(isolate, process_fun);
+
+  // sf::Window window(sf::VideoMode(800, 600), "My window");
 
   // run the program as long as the window is open
-  while (window.isOpen())
-  {
-    // check all the window's events that were triggered since the last iteration of the loop
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-      // "close requested" event: we close the window
-      if (event.type == sf::Event::Closed)
-        window.close();
-    }
-  }
+  // while (window.isOpen())
+  // {
+  //   // check all the window's events that were triggered since the last iteration of the loop
+  //   sf::Event event;
+  //   while (window.pollEvent(event))
+  //   {
+
+  //     // "close requested" event: we close the window
+  //     if (event.type == sf::Event::Closed)
+  //       window.close();
+  //   }
+  // }
 
   // Dispose the isolate and tear down V8.
   isolate->Dispose();
