@@ -30,9 +30,13 @@ V8 is part of chromium which uses google's [depot_tools](https://www.chromium.or
     sudo apt-get install libsfml-dev
 ~~~
 
+1. clone this repo  
+1. in the makefile you will have to edit the V8DIR variable so it points to where youve installed the src for v8. Look at Line 7.
 
-1. clone this repo
-1. link up the deps dir to the v8
+~~~ Makefile
+    V8DIR = PATH_TO_INSTALL/Projects/v8/
+~~~
+
 1. use Make to build this project
 
 

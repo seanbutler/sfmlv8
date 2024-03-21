@@ -1,4 +1,4 @@
-ROOT_DIR=/home/sean/Projects/sfmlv8/
+ROOT_DIR= 
 SRCDIR=$(ROOT_DIR)src/
 BIN=$(ROOT_DIR)bin/
 
@@ -22,11 +22,15 @@ CFLAGS= -lrt -lm -lv8_monolith -pthread -std=c++20 -lstdc++ -DV8_ENABLE_SANDBOX 
 EXE=sfmlv8
 OUT=bin/sfmlv8
 
-ENGINE_SRCS= $(SRCDIR)/wrapper/graphics.cpp $(SRCDIR)/wrapper/time.cpp  $(SRCDIR)/scriptsystem/script.cpp $(SRCDIR)/scriptsystem/scriptsystem.cpp 
-
+# ENGINE_SRCS= $(SRCDIR)/wrapper/graphics.cpp $(SRCDIR)/wrapper/time.cpp  $(SRCDIR)/scriptsystem/script.cpp $(SRCDIR)/scriptsystem/scriptsystem.cpp 
+ENGINE_SRCS=  $(SRCDIR)bridge.cpp
 SRCS=$(SRCDIR)main.cpp $(ENGINE_SRCS)
 
 default: sfmlv8
+
+debug: CXXFLAGS += -DDEBUG -g
+debug: CCFLAGS += -DDEBUG -g
+debug: sfmlv8
 
 clean:
 	figlet clean
@@ -34,10 +38,5 @@ clean:
 
 sfmlv8: $(SRCS)
 	figlet make sfmlv8
-	echo $(V8DIR)
-	echo $(LIBV8)
-	echo $(INCLUDEV8)
-	echo $(V8PP_INCLUDE)
-	echo $(LIBPLAT_INCLUDE)
 	$(CC) -g -Wall $(INCLUDE) $(SRCS) -o $(OUT) $(LIBS) $(CFLAGS)
 	chmod +x $(OUT)
