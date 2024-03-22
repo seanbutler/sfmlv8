@@ -11,7 +11,7 @@
 #include "v8.h"
 
 #include <SFML/Window.hpp>
-
+#include <SFML/Graphics.hpp>
 
 using namespace v8;
 
@@ -24,12 +24,16 @@ void property_listener(Local<String> name, const PropertyCallbackInfo<Value>& in
 void print(const v8::FunctionCallbackInfo<v8::Value>& args);
 
 // ------------------------------------------------------------
-extern sf::Window window;     // int var;  ->  declaration and definition 
+
+extern sf::RenderWindow window;     // int var;  ->  declaration and definition 
 
 void sfml_create_window(const FunctionCallbackInfo<Value>& args);
 void sfml_is_window_open(const FunctionCallbackInfo<Value>& args);
 void sfml_poll_event(const FunctionCallbackInfo<Value>& args);
 void sflm_handle_window_close_event(const FunctionCallbackInfo<Value>& args);
+
+void sfml_window_clear(const FunctionCallbackInfo<Value> &args);
+void sfml_window_display(const FunctionCallbackInfo<Value> &args);
 
 
 // void sfml_window_set_position(int x, int y);

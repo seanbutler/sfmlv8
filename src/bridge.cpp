@@ -48,12 +48,13 @@ void print(const v8::FunctionCallbackInfo<v8::Value> &args)
 
 // --------------------------------------------------
 
-sf::Window window;
+sf::RenderWindow window;
 
 void sfml_create_window(const FunctionCallbackInfo<Value> &args)
 {
     // std::cout << "One" << std::endl;
     window.create(sf::VideoMode(800, 600), "My window");
+    window.setVerticalSyncEnabled(true);
     // std::cout << "Two" << std::endl;
 }
 
@@ -73,13 +74,24 @@ void sfml_poll_event(const FunctionCallbackInfo<Value> &args)
     args.GetReturnValue().Set(v8::Boolean::New(args.GetIsolate(), window.pollEvent(event)));
 }
 
-
 void sflm_handle_window_close_event(const FunctionCallbackInfo<Value> &args)
 {
     if (event.type == sf::Event::Closed)
     {
         window.close();
     }
+}
+
+// --------------------------------------------------
+
+void sfml_window_clear(const FunctionCallbackInfo<Value> &args)
+{
+    window.clear(sf::Color::Black);
+}
+
+void sfml_window_display(const FunctionCallbackInfo<Value> &args)
+{
+    window.display();
 }
 
 // --------------------------------------------------

@@ -19,13 +19,19 @@
 // doit(age);
 
 
-print("Hello ");
 sfml_create_window();
-print("There");
 
 while(sfml_is_window_open()) {
     while(sfml_poll_event()){
         sflm_handle_window_close_event();
+
+
+
+        sfml_window_clear();
+
+
         
+        sfml_window_display();
+
     }
 }

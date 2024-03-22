@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
   // also an object in JavaScript remember).
   v8::Local<v8::ObjectTemplate> global = v8::ObjectTemplate::New(isolate);
 
+
   // associate 'doit' with the doit function, allowing JavaScript to call it.
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "doit",
@@ -108,12 +109,14 @@ int main(int argc, char *argv[])
                   .ToLocalChecked(),
               v8::FunctionTemplate::New(isolate, doit));
 
+
   // associate 'print' with the print function, allowing JavaScript to call it.
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "print",
                                       v8::NewStringType::kNormal)
                   .ToLocalChecked(),
               v8::FunctionTemplate::New(isolate, print));
+
 
   // make 'age' available to JavaScript
   global->SetAccessor(String::NewFromUtf8(isolate,
@@ -123,14 +126,18 @@ int main(int argc, char *argv[])
                       age_getter,
                       age_setter);
 
+
   //
   // SFML WINDOW FUNCTIONS
   //
+
+
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "sfml_create_window",
                                       v8::NewStringType::kNormal)
                   .ToLocalChecked(),
               v8::FunctionTemplate::New(isolate, sfml_create_window));
+
 
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "sfml_is_window_open",
@@ -139,9 +146,24 @@ int main(int argc, char *argv[])
               v8::FunctionTemplate::New(isolate, sfml_is_window_open));
 
 
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sfml_window_clear",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sfml_window_clear));
+
+
+  global->Set(v8::String::NewFromUtf8(isolate,
+                                      "sfml_window_display",
+                                      v8::NewStringType::kNormal)
+                  .ToLocalChecked(),
+              v8::FunctionTemplate::New(isolate, sfml_window_display));
+
+
   //
   // SFML EVENT FUNCTIONS
   //
+
 
   global->Set(v8::String::NewFromUtf8(isolate,
                                       "sfml_poll_event",
@@ -155,8 +177,6 @@ int main(int argc, char *argv[])
                                       v8::NewStringType::kNormal)
                   .ToLocalChecked(),
               v8::FunctionTemplate::New(isolate, sflm_handle_window_close_event));
-
-
 
 
   // set a named property interceptor
